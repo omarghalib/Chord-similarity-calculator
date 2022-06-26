@@ -53,8 +53,8 @@ def update_dict_with_similarity_scores(songs_dict, list_of_chord_sets):
       similarity_score = calculate_similarity_score(chord_set, other_chord_set)
       if "similarityScores" not in songs_dict[other_song_id]:
         songs_dict[other_song_id]["similarityScores"] = {}
-      songs_dict[song_id]["similarityScores"][other_song_id] = similarity_score
-      songs_dict[other_song_id]["similarityScores"][song_id] = similarity_score
+      songs_dict[song_id]["similarityScores"][other_song_id] = {"score": similarity_score}
+      songs_dict[other_song_id]["similarityScores"][song_id] = {"score": similarity_score}
       other_song_id = other_song_id + 1
     song_id = song_id + 1
   return songs_dict
