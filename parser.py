@@ -50,21 +50,18 @@ def update_dict_with_similarity_scores(output_dict, list_of_chord_sets):
   scores_dict = {}
   for chord_set in list_of_chord_sets:
     scores_dict[song_id] = {"similarityScores": {}}
-    other_song_id = song_id+1
-    for other_chord_set in list_of_chord_sets[other_song_id:]:
+    other_song_id = 0
+    for other_chord_set in list_of_chord_sets:
       similarity_score = calculate_similarity_score(chord_set, other_chord_set)
-      if other_song_id not in scores_dict:
-        scores_dict[other_song_id] = {"similarityScores": {}}
       scores_dict[song_id]["similarityScores"][other_song_id] = {"score": similarity_score, "songId": other_song_id}
-      scores_dict[other_song_id]["similarityScores"][song_id] = {"score": similarity_score, "songId": song_id}
       other_song_id = other_song_id + 1
     song_id = song_id + 1
   output_dict["scores"] = scores_dict
   return output_dict
     
 def calculate_similarity_score(chord_set, other_chord_set):
-  difference = chord_set.difference(other_chord_set)
-  similarity_score = 1 - (len(difference) / max(len(chord_set), len(other_chord_set)))
+  intersection = chord_set.intersection(other_chord_set)
+  similarity_score = len(intersection) / len(other_chord_set)
   return similarity_score
 
 def convert_dict_to_json(dict_object):
