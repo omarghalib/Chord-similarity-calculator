@@ -52,8 +52,9 @@ def update_dict_with_similarity_scores(output_dict, list_of_chord_sets):
     scores_dict[song_id] = {"similarityScores": {}}
     other_song_id = 0
     for other_chord_set in list_of_chord_sets:
-      similarity_score = calculate_similarity_score(chord_set, other_chord_set)
-      scores_dict[song_id]["similarityScores"][other_song_id] = {"score": similarity_score, "songId": other_song_id}
+      if song_id != other_song_id:
+        similarity_score = calculate_similarity_score(chord_set, other_chord_set)
+        scores_dict[song_id]["similarityScores"][other_song_id] = {"score": similarity_score, "songId": other_song_id}
       other_song_id = other_song_id + 1
     song_id = song_id + 1
   output_dict["scores"] = scores_dict
